@@ -15,7 +15,7 @@ public class Program {
 		Scanner sc = new Scanner(System.in);
 		ChessMatch chessMatch = new ChessMatch();
 		
-		while (true) {
+		while (true) {		//Make the code loop indefinitely
 			try {
 				UI.clearScreen();
 				UI.printBoard(chessMatch.getPieces());

@@ -45,17 +45,17 @@ public class Board {
 		piece.position = position;
 	}
 	
-	public Piece removePiece(Position position) {
-		if (!positionExists(position)) {
+	public Piece removePiece(Position position) {							//remove piece from specific position
+	if (!positionExists(position)) {										//exception
 			throw new BoardException("Position not on the board");		
 		}
-		if (piece(position) == null) {
-			return null;
+		if (piece(position) == null) {										//no piece is in the position
+			return null;													//return
 		}
-		Piece aux = piece(position);
-		aux.position = null;
-		pieces[position.getRow()][position.getColumn()] = null;
-		return aux;
+		Piece aux = piece(position);										//create a Piece aux to store the position
+		aux.position = null;												//remove position value of the aux 
+		pieces[position.getRow()][position.getColumn()] = null;				//remove value from pieces matrix
+		return aux;															//return aux
 	}
 	
 	private boolean positionExists(int row, int column) {					//Check position on the matrix

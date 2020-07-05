@@ -1,5 +1,8 @@
 package chess;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import boardgame.Board;
 import boardgame.Piece;
 import boardgame.Position;
@@ -11,6 +14,9 @@ public class ChessMatch {
 	private int turn;
 	private Color currentPlayer;
 	private Board board;
+	
+	private List<Piece> piecesOnTheBoard = new ArrayList<>();
+	private List<Piece> capturedPieces = new ArrayList<>();
 	
 	public ChessMatch() {
 		board = new Board(8, 8);					//Instantiate a new board >> boardgame/Board
@@ -57,6 +63,12 @@ public class ChessMatch {
 		Piece p = board.removePiece(source);
 		Piece capturedPiece = board.removePiece(target);
 		board.placePiece(p, target);
+		
+		if (capturedPiece != null) {
+			piecesOnTheBoard.remove(capturedPiece);					//remove piece from piecesOnTheBoard list
+			capturedPieces.add(capturedPiece);						//add piece to capturedPieces list
+		}
+		
 		return capturedPiece;
 	}
 	
@@ -64,7 +76,7 @@ public class ChessMatch {
 		if (!board.thereIsAPiece(position)) {
 			throw new ChessException("There is no piece on source position");
 		}
-		if (currentPlayer != ((ChessPiece) board.piece(position)).getColor()) {		//check if currentPlyaer color is different from the selected piece
+		if (currentPlayer != ((ChessPiece) board.piece(position)).getColor()) {		//check if currentPlayer color is different from the selected piece
 			throw new ChessException("The chosen piece is not yours");
 		}
 		if (!board.piece(position).isThereAnyPossibleMove()) {
@@ -85,6 +97,7 @@ public class ChessMatch {
 	
 	private void placeNewPiece(char column, int row, ChessPiece piece) {
 		board.placePiece(piece, new ChessPosition(column, row).toPosition());
+		piecesOnTheBoard.add(piece);
 		/*
 		 * call board method placePiece from boardgame/Board 
 		 * arguments piece from boardgame/Piece abstract class
@@ -93,6 +106,8 @@ public class ChessMatch {
 		 * 
 		 * instantiate a new ChessPosition with chess values and convert it to matrix position
 		 * chess/ChessPostion
+		 * 
+		 * add piece placed on the board to piecesOnTHeBoard list
 		 */
 	}
 	

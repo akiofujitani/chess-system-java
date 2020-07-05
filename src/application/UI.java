@@ -3,6 +3,7 @@ package application;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import chess.ChessMatch;
 import chess.ChessPiece;
 import chess.ChessPosition;
 import chess.Color;
@@ -36,23 +37,30 @@ public class UI {
 		System.out.flush();   
 	} 
 	
-	public static ChessPosition readChessPosition(Scanner sc) {
+	public static ChessPosition readChessPosition(Scanner sc) {		//reads user input
 		try {
-			String s = sc.nextLine();
+			String s = sc.nextLine();								//reads a char for column position
 			char column = s.charAt(0);
-			int row = Integer.parseInt(s.substring(1));
-			return new ChessPosition(column, row);	
+			int row = Integer.parseInt(s.substring(1));				//reads a integer number for row position
+			return new ChessPosition(column, row);					//instantiate and check inputed position	
 		}
 		catch (Exception e) {
 			throw new InputMismatchException("Error reading ChessPosition. Valid value are from a1 to h8");
 		}
 	}
 	
-	public static void printBoard(ChessPiece[][] pieces) {
-		for (int i=0; i<pieces.length; i++) {
-			System.out.print((8 - i) + " ");
-			for (int j=0; j<pieces.length; j++) {
-				printPiece(pieces[i][j], false);
+	public static void printMatch(ChessMatch chessMatch) {
+		printBoard(chessMatch.getPieces());
+		System.out.println();
+		System.out.println("Turn: " + chessMatch.getTurn());
+		System.out.println("Waiting player: " + chessMatch.getCurrentPlayer());
+	}
+	
+	public static void printBoard(ChessPiece[][] pieces) {			//Print the chess board on the terminal screen
+		for (int i=0; i<pieces.length; i++) {						//for loop for rows
+			System.out.print((8 - i) + " ");						
+			for (int j=0; j<pieces.length; j++) {					//for loop for columns
+				printPiece(pieces[i][j], false);					//printPiece method with matrix values and background set to false
 			}
 			System.out.println();
 		}

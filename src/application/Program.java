@@ -13,19 +13,19 @@ public class Program {
 	public static void main(String[] args) {
 		
 		Scanner sc = new Scanner(System.in);
-		ChessMatch chessMatch = new ChessMatch();
+		ChessMatch chessMatch = new ChessMatch();		//Instantiate a new chess match >> chess/ChessMatch
 		
-		while (true) {		//Make the code loop indefinitely
+		while (true) {									//Make the code loop indefinitely
 			try {
-				UI.clearScreen();
-				UI.printBoard(chessMatch.getPieces());
+				UI.clearScreen();						//Clear the terminal screen
+				UI.printMatch(chessMatch);	//print the chess board and pieces application/UI
 				System.out.println();
 				System.out.print("Source: ");
-				ChessPosition source = UI.readChessPosition(sc);
+				ChessPosition source = UI.readChessPosition(sc);	//instantiate a ChessPosition and reads user input for piece selection application/UI
 				
-				boolean[][] possibleMoves = chessMatch.possibleMoves(source);
+				boolean[][] possibleMoves = chessMatch.possibleMoves(source);	//check possible moves of the selected piece boardgame/Piece >> ChessPiece >> Each piece
 				UI.clearScreen();
-				UI.printBoard(chessMatch.getPieces(), possibleMoves);
+				UI.printBoard(chessMatch.getPieces(), possibleMoves);	//print the board with the possible moves matrix 
 				
 				System.out.println();
 				System.out.print("Taget: ");

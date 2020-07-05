@@ -8,21 +8,33 @@ import chess.pieces.Rook;
 
 public class ChessMatch {
 
+	private int turn;
+	private Color currentPlayer;
 	private Board board;
 	
 	public ChessMatch() {
-		board = new Board(8, 8);
-		initialSetup();
+		board = new Board(8, 8);					//Instantiate a new board >> boardgame/Board
+		turn = 1;
+		currentPlayer = Color.WHITE;
+		initialSetup();								//Execute method
 	}
 	
-	public ChessPiece[][] getPieces() {
-		ChessPiece[][] mat = new ChessPiece[board.getRows()][board.getColumns()];
+	public int getTurn() {
+		return turn;
+	}
+	
+	public Color getCurrentPlayer() {
+		return currentPlayer;
+	}
+	
+	public ChessPiece[][] getPieces() {				//return a matrix with all pieces on the board
+		ChessPiece[][] mat = new ChessPiece[board.getRows()][board.getColumns()];	//Create a matrix
 		for (int i=0; i<board.getRows(); i++) {
 			for (int j=0; j<board.getColumns(); j++) {
-				mat[i][j] = (ChessPiece) board.piece(i, j);
+				mat[i][j] = (ChessPiece) board.piece(i, j);		//insert in the created matrix the values from pieces matrix
 			}
 		}
-		return mat;
+		return mat;									//return the filled matrix
 	}
 	
 	public boolean[][] possibleMoves(ChessPosition sourcePosition) {
@@ -37,6 +49,7 @@ public class ChessMatch {
 		validateSourcePosition(source);
 		validateTargetPosition(source, target);
 		Piece capturedPiece = makeMove(source, target);
+		nextTurn();
 		return (ChessPiece) capturedPiece;
 	}
 	
@@ -51,6 +64,9 @@ public class ChessMatch {
 		if (!board.thereIsAPiece(position)) {
 			throw new ChessException("There is no piece on source position");
 		}
+		if (currentPlayer != ((ChessPiece) board.piece(position)).getColor()) {		//check if currentPlyaer color is different from the selected piece
+			throw new ChessException("The chosen piece is not yours");
+		}
 		if (!board.piece(position).isThereAnyPossibleMove()) {
 			throw new ChessException("There is no possible moves for the chosen piece");
 		}
@@ -62,11 +78,32 @@ public class ChessMatch {
 		}
 	}
 	
-	private void placeNewPiece(char column, int row, ChessPiece piece) {
-		board.placePiece(piece, new ChessPosition(column, row).toPosition());
+	private void nextTurn() {
+		turn++;
+		currentPlayer = (currentPlayer == Color.WHITE) ? Color.BLACK : Color.WHITE;
 	}
 	
-	private void initialSetup() {
+	private void placeNewPiece(char column, int row, ChessPiece piece) {
+		board.placePiece(piece, new ChessPosition(column, row).toPosition());
+		/*
+		 * call board method placePiece from boardgame/Board 
+		 * arguments piece from boardgame/Piece abstract class
+		 * chess/ChessPiece abstract extended class
+		 * Ending in the chess.pieces extended class with each piece
+		 * 
+		 * instantiate a new ChessPosition with chess values and convert it to matrix position
+		 * chess/ChessPostion
+		 */
+	}
+	
+	private void initialSetup() {				//Place the listed pieces on the board pieces matrix 
+		/*
+		 * method >> class ChessMatch/placeNewPiece
+		 * inserting chess position values that will be translated to matrix values
+		 * 
+		 * instantiate a new chess piece with each piece having its own class
+		 * with board and color arguments
+		 */
 		placeNewPiece('c', 1, new Rook(board, Color.WHITE));
 		placeNewPiece('c', 2, new Rook(board, Color.WHITE));
 		placeNewPiece('d', 2, new Rook(board, Color.WHITE));

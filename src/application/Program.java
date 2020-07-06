@@ -18,7 +18,7 @@ public class Program {
 		ChessMatch chessMatch = new ChessMatch();		//Instantiate a new chess match >> chess/ChessMatch
 		List<ChessPiece> captured = new ArrayList<>();
 		
-		while (true) {									//Make the code loop indefinitely
+		while (!chessMatch.getCheckMate()) {									
 			try {
 				UI.clearScreen();						//Clear the terminal screen
 				UI.printMatch(chessMatch, captured);				//print the chess board and pieces application/UI
@@ -49,6 +49,8 @@ public class Program {
 				sc.nextLine();
 			}
 		}
+		UI.clearScreen();
+		UI.printMatch(chessMatch, captured);
 
 	}
 

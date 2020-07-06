@@ -28,7 +28,7 @@ public class ChessPosition {
 	}
 	
 	protected static ChessPosition fromPosition(Position position) {		//translate chess position to matrix position
-		return new ChessPosition((char) ('a' - position.getColumn()), 8 - position.getRow());	//instantiate and return a new chess position value
+		return new ChessPosition((char) ('a' + position.getColumn()), 8 - position.getRow());	//instantiate and return a new chess position value
 	}
 	
 	@Override
